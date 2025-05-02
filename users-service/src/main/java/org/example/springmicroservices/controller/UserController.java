@@ -1,35 +1,31 @@
 package org.example.springmicroservices.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.example.springmicroservices.model.User;
+import org.example.springmicroservices.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
+@RequiredArgsConstructor
 public class UserController {
-    private final Map<Long, User> users = new HashMap<>();
-    private long nextId;
+    private final UserRepository userRepository;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public User create(@RequestBody User user) {
-        user.setId(++nextId);
         user.setCreatedAt(LocalDateTime.now());
-        users.put(user.getId(), user);
+        userRepository.save(user);
         return user;
     }
 
     @GetMapping("/{id}")
     public User findById(@PathVariable long id) {
-        User user = users.get(id);
-        if (user == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        return user;
+        return userRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 }

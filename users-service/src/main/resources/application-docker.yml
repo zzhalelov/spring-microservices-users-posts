@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/spring-microservices-users-posts-zhastilek
+    url: jdbc:postgresql://users-db:5432/users
     username: postgres
     password: postgres
   jpa:

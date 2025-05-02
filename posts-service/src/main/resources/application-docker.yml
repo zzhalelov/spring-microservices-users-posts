@@ -3,11 +3,11 @@ server:
 
 users:
   server:
-    url: http://localhost:8081
+    url: http://users-service:8081
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/spring-microservices-users-posts-zhastilek
+    url: jdbc:postgresql://posts-db:5432/posts
     username: postgres
     password: postgres
   jpa:
